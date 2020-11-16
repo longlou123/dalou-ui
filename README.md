@@ -1,18 +1,23 @@
 # dalou-ui
 
-## Project setup
+## 安装依赖
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 项目运行
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 项目打包
 ```
 npm run build
+```
+
+### 打包npm发布
+```
+npm run lib
 ```
 
 ### Lints and fixes files
@@ -20,5 +25,4 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
