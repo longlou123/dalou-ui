@@ -1,30 +1,50 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
   <router-view />
 </template>
+<script>
+  import {ref,provide} from 'vue'
+  import {menuStatus} from "./utils/utils.js"
+  import { createMessage, createDialog } from "../packages";
+  import {router} from "./router"
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  import NProgress from 'nprogress'
+  import 'nprogress/nprogress.css'
+  export default {
+  name: 'App',
+  setup() {
+    const menuVisible = ref(menuStatus())
+    const width = document.documentElement.clientWidth
+    provide('menuVisible',menuVisible)
+    // 全局注册组件
+    provide('message', createMessage)
+    provide('confirm', createDialog)
 
-#nav {
-  padding: 30px;
+    router.beforeEach((to, from, next) => {
+      NProgress.start()
+      next()
+    })
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+    router.afterEach(() => {
+      if(width<=900){
+        menuVisible.value = false
+      }
+      NProgress.done()
+      window.scrollTo(0, 0)
+    })
   }
 }
+</script>
+<style lang="scss">
+  @import "assets/scss/_var.scss";
+  @import "assets/scss/reset.scss";
+  #nprogress {
+    .bar {
+      background: $theme !important;
+    }
+
+    .spinner-icon {
+      border-color: $theme transparent transparent $theme;
+    }
+  }
+
 </style>
